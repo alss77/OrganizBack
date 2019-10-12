@@ -1,0 +1,24 @@
+{
+   "type": "postgres",
+   "host": "postgres",
+   "port": "5432",
+   "username": "organiz",
+   "password": "qwerty",
+   "database": "organiz_db",
+   "logging": true,
+   "synchronize": true,
+   "entities": [
+      "src/Models/entity/**/*.ts"
+   ],
+   "migrations": [
+      "src/Models/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "src/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "src/Models/entity",
+      "migrationsDir": "src/Models/migration",
+      "subscribersDir": "src/subscriber"
+   }
+}

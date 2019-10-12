@@ -1,0 +1,8 @@
+{
+  "User not found": "Utilisateur non trouvé",
+  "The password is wrong": "Le mot de passe est incorrect",
+  "The user %s already exist": "L'utilisateur %s éxiste déjà",
+  "Please enter a valid email": "Veuillez entrer une addresse email valide",
+  "The email to reset your password expired": "L'e-mail pour réinitialiser votre mot de passe a expiré",
+  "The given token is either expired or wrong": "Le token est expiré ou incorect"
+}

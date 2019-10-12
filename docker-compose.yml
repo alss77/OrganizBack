@@ -1,0 +1,30 @@
+version: "3"
+services:
+  app:
+    build: .
+    depends_on:
+      - postgres
+    entrypoint:
+      - ./bin/entry.sh
+    environment:
+      DATABASE_URL: postgresql://organiz:qwerty@postgres/organiz_db
+#      NODE_ENV: development
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    command: npm run dev
+    volumes:
+      - .:/app/
+      - /app/node_modules
+
+  postgres:
+    container_name: postgres
+    image: postgres:10.4
+    volumes:
+      - ./data/postgres:/var/run/postgresql/data
+    ports:
+      - "35432:5432"
+    environment:
+      POSTGRES_USER: organiz
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: organiz_db
