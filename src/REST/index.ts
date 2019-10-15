@@ -1,59 +1,73 @@
-import * as koa from 'koa';
-// import * as AsyncHandler from 'express-async-handler';
 import * as i18n from 'i18n';
 import * as helmet from 'koa-helmet';
 import * as passport from 'passport';
 // import { ApiException, ApiExceptionTranslate } from '../utils/ApiExceptions';
-import * as auth from './Routes/Auth';
-import * as router from 'koa-router';
-import {loginRoute} from "./Routes/Auth/LoginRouter";
-i18n.configure({
-    directory: __dirname + '/../../locales',
-});
+const Router = require('koa-router');
+const Koa = require('koa');
+import {loginRoute, registerRoute} from "./Routes/Auth";
+export const app = new Koa();
 
-export const app = new koa();
-const route = new router();
 const cors = require('@koa/cors');
-const logger = require('koa-logger');
 const bodyParser = require('koa-bodyparser');
-const session = require('koa-session');
+const route = new Router();
+const logger = require('koa-logger');
+// i18n.configure({
+//     directory: __dirname + '/../../locales',
+// });
 
-// app.use(helmet);
-app.use(cors);
-app.keys = ['ORGANIZSECRETkey'];
-app.use(session(app));
+app.use(cors());
+// app.use(helmet());
+
+// let bp = bodyParser({
+//     onerror: function (err, ctx) {
+//         ctx.throw('body parse error', 422);
+//     }
+// });
 
 // body parser
 app.use(bodyParser());
 
-// app.use(ExpressValidator());
+// Sessions
+const session = require('koa-session');
+app.keys = ['secret'];
+app.use(session({}, app));
+
+const passport = require('koa-passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(i18n.init);
-
-route.use('/', async ctx => {
-    ctx.state.response = await Promise.resolve({
-        message: "hello world!"
-    })
-});
-const mount = require('koa-mount');
-app.use(mount(route.routes()))
-    .use(route.allowedMethods());
+//
+// route.get('/', function(ctx, next) {
+//     ctx.body = "Hello"
+// });
 
 app.use(loginRoute.routes());
 app.use(loginRoute.allowedMethods());
-app.use(logger());
+app.use(registerRoute.routes());
+app.use(registerRoute.allowedMethods());
 
-// app.use((_req: Express.Request, res: Express.Response, _next: any) => {
+// app.use(route.routes()).use(route.allowedMethods());
+
+// app.use(async (ctx, next) => {
+//     await next();
+//     const rt = ctx.response.get('X-Response-Time');
+//     console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+// });
+// // route.use('/auth', loginRoute);
+// const mount = require('koa-mount');
+// app.use(route.routes())
+//     .use(route.allowedMethods());
+//
+// app.use((, _next: any) => {
 //     res.status(404).json({
 //         message: 'Route or Resource not found',
 //     });
 // });
 //
-app.on('error', (err, ctx) => {
-    console.log('server error', err, ctx)
-});
+
+// app.on('error', (err, ctx) => {
+//     console.log('server error', err, ctx)
+// });
 // // Handle errors
 // app.use(
 //     (error: Error, req: Express.Request, res: Express.Response, _next: any) => {

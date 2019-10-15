@@ -10,32 +10,40 @@ import {getRepository} from "typeorm";
 import * as Router from "koa-router";
 // import { TranslateMessage } from '../../../Utils/Translation/Sentences';
 
-export const registerRoute = Router();
+export const registerRoute = Router({
+    prefix: '/auth'
+});
 
-function giveTokenToUser(req: any, res: any): void {
-    res.status(200).json({ token: generateJWT(req.user) });
+function giveTokenToUser(ctx: any): void {
+    ctx.status(200).json({ token: generateJWT(ctx.user) });
 }
 
-async function validTokenInscription(req: any, res: Response, next: any) {
-    const token = req.body.token_inscription;
+async function validTokenInscription(ctx: any, next: any) {
+    const token = ctx.body.token_inscription;
     if (token == null) {
         // throw new ApiExceptionTranslate(403, TranslateMessage.BetaInscription);
+        throw 'errrrrrrrrot';
     }
     next();
 }
 
-async function createUser(req: any, res: Response) {
+async function createUser(ctx: any) {
+    ctx.body = ctx.request.body;
     if (await getRepository(User).findOne({
         where: {
-            userName: req.body.email
+            userName: ctx.body.email
         }
     })) {
+        throw 'errrrrrrrrot';
         // throw new ApiExceptionTranslate(403, TranslateMessage.BetaInscription);
     }
     const user = new User();
-    user.email = req.email;
-    if (req.body.password) {
-        user.password = bcrypt.hashSync(req.body.password, 10);
+    console.log('COOOOONTEXT', ctx.body);
+    user.email = ctx.body.email;
+    user.firstName = ctx.body.firstName;
+    user.lastName = ctx.body.lastName;
+    if (ctx.body.password) {
+        user.password = await bcrypt.hashSync(ctx.body.password, 10);
     }
 
     await getRepository(User).save(user);
@@ -43,7 +51,13 @@ async function createUser(req: any, res: Response) {
 
 registerRoute.post('/register',
     createUser
+    // giveTokenToUser
     );
+
+registerRoute.post('/test', async (ctx, next) => {
+    console.log(ctx);
+    await next();
+});
 
 // const FBAuth = passport.authenticate(FacebookRegister, { session: false });
 //

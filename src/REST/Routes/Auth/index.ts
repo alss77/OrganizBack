@@ -1,6 +1,7 @@
-import './LoginRouter';
-import './RegisterRouter';
-import * as router from 'koa-router';
+export { loginRoute } from './LoginRouter';
+export { registerRoute } from './RegisterRouter';
+// import './RegisterRouter';
+// import * as router from 'koa-router';
 // import {loginRoute} from "./LoginRouter";
 // import {registerRoute} from "./RegisterRouter";
 //
