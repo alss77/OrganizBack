@@ -1,6 +1,5 @@
 import * as i18n from 'i18n';
 import * as helmet from 'koa-helmet';
-import * as passport from 'passport';
 // import { ApiException, ApiExceptionTranslate } from '../utils/ApiExceptions';
 const Router = require('koa-router');
 const Koa = require('koa');

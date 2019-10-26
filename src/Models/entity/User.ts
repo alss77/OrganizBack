@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column, Unique} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, ManyToMany} from "typeorm";
+import {Task} from "./Card";
 
 @Entity()
 @Unique(['email'])
@@ -20,6 +21,7 @@ export class User {
     password: string;
 
     // @Column()
-    // @HasMany()
+    @ManyToMany(type => Task, task => task.users)
+    tasks: Task[];
     // card
 }

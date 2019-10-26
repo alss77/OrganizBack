@@ -38,7 +38,7 @@ async function createUser(ctx: any) {
         // throw new ApiExceptionTranslate(403, TranslateMessage.BetaInscription);
     }
     const user = new User();
-    console.log('COOOOONTEXT', ctx.body);
+    // console.log('COOOOONTEXT', ctx.body);
     user.email = ctx.body.email;
     user.firstName = ctx.body.firstName;
     user.lastName = ctx.body.lastName;

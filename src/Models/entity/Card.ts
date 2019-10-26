@@ -1,7 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToMany} from "typeorm";
+import {User} from "./User";
 
 @Entity()
-export class Card {
+export class Task {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -12,6 +13,8 @@ export class Card {
     @Column()
     content: string;
 
+    @ManyToMany(type => User, user => user.tasks)
+    users: User[];
     // @Column()
     // email: string;
     //

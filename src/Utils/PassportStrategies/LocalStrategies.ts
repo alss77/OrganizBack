@@ -10,18 +10,7 @@ export function verifyPassword(password: string, user: User) {
  return bcrypt.compareSync(password, user.password);
 }
 
-// const fetchUser = => {
-//
-//     const user = getRepository(User).findOne({
-//         where: {
-//             email: email.toLowerCase()
-//         }
-//     });return async function() {
-//         return user
-//     }
-// })();
-
-passport.serializeUser(function(user, done) {
+passport.serializeUser(async function(user, done) {
     done(null, user.id)
 });
 

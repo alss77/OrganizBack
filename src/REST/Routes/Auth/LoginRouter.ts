@@ -10,7 +10,6 @@ export const loginRoute = Router({prefix: '/auth'});
 
 async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
     ctx.body = ctx.request.body;
-    console.log('usssssssssssssssssssser', ctx.body);
     const user = await getRepository(User).findOne({
         where: {
             email: ctx.body.email.toLowerCase()
