@@ -34,8 +34,9 @@ async function createUser(ctx: any) {
             userName: ctx.body.email
         }
     })) {
-        // throw 'errrrrrrrrot';
+        throw 'errrrrrrrrot';
         // throw new ApiExceptionTranslate(403, TranslateMessage.BetaInscription);
+    }
     const user = new User();
     // console.log('COOOOONTEXT', ctx.body);
     user.email = ctx.body.email;
@@ -46,7 +47,6 @@ async function createUser(ctx: any) {
     }
 
     await getRepository(User).save(user);
-    }
 }
 
 registerRoute.post('/register',
