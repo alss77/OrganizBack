@@ -9,9 +9,9 @@ services:
     environment:
       DATABASE_URL: postgresql://organiz:qwerty@postgres/organiz_db
 #      NODE_ENV: development
-      PORT: 3000
+      PORT: 4000
     ports:
-      - "3000:3000"
+      - "4000:4000"
     command: npm run dev
     volumes:
       - .:/app/

@@ -12,10 +12,10 @@ export class Team {
     name: string;
 
     @ManyToMany(type => User, user => user.tasks)
-    users: User[];
+    users: User;
 
-    @ManyToMany(type => Task, task => task.team)
-    task: Task[];
+    @OneToMany(type => Task, task => task.team)
+    task: Task;
 
     // @Column()
     // email: string;

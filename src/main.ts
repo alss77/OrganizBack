@@ -3,7 +3,7 @@ import { createConnection } from "typeorm";
 import {server} from "./server";
 
 
-const port: number = 3000;
+const port: number = 4000;
 
 createConnection()
     .then(() => {
