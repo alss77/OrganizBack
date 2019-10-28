@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToMany} from "typeorm";
 import {User} from "./User";
+import {Team} from "./Team";
 
 @Entity()
 export class Task {
@@ -15,6 +16,9 @@ export class Task {
 
     @ManyToMany(type => User, user => user.tasks)
     users: User[];
+
+    @Column()
+    team: Team[];
     // @Column()
     // email: string;
     //

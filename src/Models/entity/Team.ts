@@ -5,13 +5,16 @@ import {Task} from "./Card";
 @Entity()
 export class Team {
 
+    @PrimaryGeneratedColumn()
+    id: number;
+
     @Column()
-    TeamId: number;
+    name: string;
 
     @ManyToMany(type => User, user => user.tasks)
     users: User[];
 
-    @ManyToMany(type => User, user => user.tasks)
+    @ManyToMany(type => Task, task => task.team)
     task: Task[];
 
     // @Column()

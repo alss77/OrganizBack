@@ -3,7 +3,7 @@ import {Task} from "../../Models/entity/Card";
 
 export async function createTask(ctx) {
     ctx.body = ctx.request.body;
-    if ( await getRepository(Task).findOne({
+    if (await getRepository(Task).findOne({
         where: {
             id: ctx.body.id
         }
