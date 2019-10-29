@@ -1,19 +1,20 @@
-import {getRepository} from "typeorm";
-import {Team} from "../../Models/entity/Team";
+import {getRepository} from 'typeorm';
+import {Team} from '../../Models/entity/Team';
+// import { ApiException } from '../../Utils/ApiException';
 
-export async function createTeam(teamReq: Team) {
-    // ctx.body = ctx.request.body;
+export async function createTeam(ctx: any, next) {
+    ctx.body = ctx.request.body;
     if (await getRepository(Team).findOne({
         where: {
-            id: teamReq.id
+            id: ctx.body.id
         }
     })) {
-        throw 'errrrrror';
+        next(ctx.throw(403,'ou cest chaud'));
     }
 
     const team = new Team();
-    team.users = teamReq.users;
-    team.task = teamReq.task;
-    team.name = teamReq.name;
+    team.users = ctx.body.users;
+    team.task = ctx.body.task;
+    team.name = ctx.body.name;
     return getRepository(Team).save(team);
 }

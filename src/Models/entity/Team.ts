@@ -1,6 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany} from "typeorm";
-import {User} from "./User";
-import {Task} from "./Card";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany} from 'typeorm';
+import {User} from './User';
+import {Task} from './Card';
 
 @Entity()
 export class Team {
@@ -16,10 +16,4 @@ export class Team {
 
     @OneToMany(type => Task, task => task.team)
     task: Task;
-
-    // @Column()
-    // email: string;
-    //
-    // @Column()
-    // password: string;
 }

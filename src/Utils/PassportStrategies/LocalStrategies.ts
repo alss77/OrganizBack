@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcryptjs';
 import * as passport from 'koa-passport';
 import * as passportLocal from 'passport-local';
-import { getRepository} from "typeorm";
-import { User } from "../../Models";
+import { getRepository} from 'typeorm';
+import { User } from '../../Models';
 
 const LocalStrategies = passportLocal.Strategy;
 

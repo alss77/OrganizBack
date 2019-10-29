@@ -1,6 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne} from "typeorm";
-import {User} from "./User";
-import {Team} from "./Team";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne} from 'typeorm';
+import {User} from './User';
+import {Team} from './Team';
 
 @Entity()
 export class Task {

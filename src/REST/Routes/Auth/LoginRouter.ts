@@ -1,10 +1,10 @@
-import {json} from "body-parser";
+import {json} from 'body-parser';
 
 const Router = require('koa-router');
 import {generateJWT} from '../../../Utils/generateJWT'
 import * as passport from 'koa-passport'
-import {getRepository} from "typeorm";
-import {User} from "../../../Models";
+import {getRepository} from 'typeorm';
+import {User} from '../../../Models';
 
 export const loginRoute = Router({prefix: '/auth'});
 

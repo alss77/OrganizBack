@@ -5,9 +5,10 @@ import * as bcrypt from 'bcryptjs'
 // import { FacebookRegister, GoogleRegister } from '../../../Utils/PassportStrategies';
 // import { ApiExceptionTranslate } from '../../../utils/ApiExceptions/ApiExceptionTranslate';
 import { generateJWT } from '../../../Utils/generateJWT';
-import {User} from "../../../Models";
-import {getRepository} from "typeorm";
-import * as Router from "koa-router";
+import {User} from '../../../Models';
+import {getRepository} from 'typeorm';
+import * as Router from 'koa-router';
+import { ApiException } from '../../../Utils/ApiException';
 // import { TranslateMessage } from '../../../Utils/Translation/Sentences';
 
 export const registerRoute = Router({
@@ -27,18 +28,16 @@ async function validTokenInscription(ctx: any, next: any) {
     next();
 }
 
-async function createUser(ctx: any) {
+async function createUser(ctx: any, next) {
     ctx.body = ctx.request.body;
     if (await getRepository(User).findOne({
         where: {
-            userName: ctx.body.email
+            email: ctx.body.email
         }
     })) {
-        throw 'errrrrrrrrot';
-        // throw new ApiExceptionTranslate(403, TranslateMessage.BetaInscription);
+        next(ctx.throw(403, 'user exist'));
     }
     const user = new User();
-    // console.log('COOOOONTEXT', ctx.body);
     user.email = ctx.body.email;
     user.firstName = ctx.body.firstName;
     user.lastName = ctx.body.lastName;
@@ -54,10 +53,6 @@ registerRoute.post('/register',
     // giveTokenToUser
     );
 
-registerRoute.post('/test', async (ctx, next) => {
-    console.log(ctx);
-    await next();
-});
 
 // const FBAuth = passport.authenticate(FacebookRegister, { session: false });
 //

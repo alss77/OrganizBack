@@ -1,6 +1,6 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
-import {server} from "./server";
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import {server} from './server';
 
 
 const port: number = 4000;
