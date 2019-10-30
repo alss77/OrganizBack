@@ -7,7 +7,10 @@ import { User } from '../../Models';
 const LocalStrategies = passportLocal.Strategy;
 
 export function verifyPassword(password: string, user: User) {
- return bcrypt.compareSync(password, user.password);
+    console.log(password);
+    console.log(user.password);
+
+    return user.password ? bcrypt.compareSync(password, user.password) : false;
 }
 
 passport.serializeUser(async function(user, done) {
@@ -35,10 +38,11 @@ passport.use(new LocalStrategies(
     async (email: string, password: string, done: any) => {
         const user = await getRepository(User).findOne({
             where: {
-                email: email.toLowerCase()
+                email: email
             }
         });
-
+        console.log(email);
+        console.log(password);
         if (!user) {
             return done(null, false
                 // new ApiExceptionTranslate(404, TranslateMessage.UserNotFound), false

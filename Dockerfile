@@ -9,4 +9,4 @@ RUN rm -rf node_modules && npm install --unsafe-perm
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 4000

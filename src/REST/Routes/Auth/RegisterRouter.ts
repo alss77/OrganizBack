@@ -1,6 +1,5 @@
 import { Request, Response } from 'koa';
 // import * as AsyncHandler from 'koa-async-handler';
-import * as passport from 'passport';
 import * as bcrypt from 'bcryptjs'
 // import { FacebookRegister, GoogleRegister } from '../../../Utils/PassportStrategies';
 // import { ApiExceptionTranslate } from '../../../utils/ApiExceptions/ApiExceptionTranslate';
@@ -8,8 +7,18 @@ import { generateJWT } from '../../../Utils/generateJWT';
 import {User} from '../../../Models';
 import {getRepository} from 'typeorm';
 import * as Router from 'koa-router';
-import { ApiException } from '../../../Utils/ApiException';
 // import { TranslateMessage } from '../../../Utils/Translation/Sentences';
+import joi from 'joi';
+import validate from 'koa-joi-validate';
+//
+// export const registerValidator = validate({
+//     body: {
+//         email: joi.string().email().required(),
+//         firstName: joi.string().required(),
+//         lastName: joi.string().required(),
+//         password: joi.string().required()
+//     }
+// });
 
 export const registerRoute = Router({
     prefix: '/auth'
@@ -17,15 +26,6 @@ export const registerRoute = Router({
 
 function giveTokenToUser(ctx: any): void {
     ctx.status(200).json({ token: generateJWT(ctx.user) });
-}
-
-async function validTokenInscription(ctx: any, next: any) {
-    const token = ctx.body.token_inscription;
-    if (token == null) {
-        // throw new ApiExceptionTranslate(403, TranslateMessage.BetaInscription);
-        throw 'errrrrrrrrot';
-    }
-    next();
 }
 
 async function createUser(ctx: any, next) {
@@ -37,6 +37,7 @@ async function createUser(ctx: any, next) {
     })) {
         next(ctx.throw(403, 'user exist'));
     }
+    console.log(ctx.body);
     const user = new User();
     user.email = ctx.body.email;
     user.firstName = ctx.body.firstName;
@@ -49,9 +50,8 @@ async function createUser(ctx: any, next) {
 }
 
 registerRoute.post('/register',
-    createUser
-    // giveTokenToUser
-    );
+    // registerValidator,
+    createUser);
 
 
 // const FBAuth = passport.authenticate(FacebookRegister, { session: false });

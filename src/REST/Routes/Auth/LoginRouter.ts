@@ -1,11 +1,18 @@
-import {json} from 'body-parser';
-
-const Router = require('koa-router');
-import {generateJWT} from '../../../Utils/generateJWT'
+import * as Router from 'koa-router';
 import * as passport from 'koa-passport'
+import {json} from 'body-parser';
+import {generateJWT} from '../../../Utils/generateJWT'
 import {getRepository} from 'typeorm';
 import {User} from '../../../Models';
-
+// import joi from 'joi';
+// import validate from 'koa-joi-validate';
+//
+// export const loginValidator = validate({
+//     body: {
+//         email: joi.string().email().required(),
+//         password: joi.string().required()
+//     }
+// });
 export const loginRoute = Router({prefix: '/auth'});
 
 async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
@@ -15,20 +22,20 @@ async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
             email: ctx.body.email.toLowerCase()
         }
     });
-    ctx.status = 200;
-    ctx.body = { token: generateJWT(user) };
-    // ctx.status = ctx.request.response.status;
-    console.log(ctx.status);
+    const tokenUser = generateJWT(user);
+    console.log('token dbg:', tokenUser);
+    if (tokenUser) {
+        ctx.status = 200;
+        ctx.body = { token: tokenUser };
+    } else {
+        ctx.throw(403, 'Token Generation Error');
+    }
     return next();
 }
 
 loginRoute.post(
     '/local',
+    // loginValidator,
     passport.authenticate('local'),
     giveTokenToUser
 );
-
-loginRoute.get('/local', async (ctx, next) =>{
-    ctx.body = 'qwetujufghjkhgf';
-    return next;
-});

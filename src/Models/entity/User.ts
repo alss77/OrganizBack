@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, ManyToMany} from 'typeorm';
 import {Task} from './Card';
+import { Team } from './Team';
 
 @Entity()
 @Unique(['email'])
@@ -21,5 +22,8 @@ export class User {
     password: string;
 
     @ManyToMany(type => Task, task => task.users)
-    tasks: Task[];
+    tasks: Task;
+
+    @ManyToMany(type => Team, team => team.users)
+    teams: Team;
 }
