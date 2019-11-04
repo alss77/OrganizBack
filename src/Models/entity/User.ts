@@ -22,8 +22,8 @@ export class User {
     password: string;
 
     @ManyToMany(type => Task, task => task.users)
-    tasks: Task;
+    tasks: Task[];
 
     @ManyToMany(type => Team, team => team.users)
-    teams: Team;
+    teams: Team[];
 }

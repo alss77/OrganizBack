@@ -17,5 +17,11 @@ export async function createTask(taskReq: Task) {
     task.team = taskReq.team;
     task.cardName = taskReq.cardName;
     task.content = taskReq.content;
-    return getRepository(Task).save(task);
+    await getRepository(Task).save(task);
+}
+
+export async function addUserToTask(ctx) {
+    const task = await getRepository(Task).findOne(ctx.request.body.taskId);
+    task.users.push(ctx.request.body.user);
+    await getRepository(Task).save(task);
 }

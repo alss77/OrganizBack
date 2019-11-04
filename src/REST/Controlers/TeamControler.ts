@@ -16,3 +16,15 @@ export async function createTeam(ctx: any, next) {
     team.name = ctx.body.name;
     return getRepository(Team).save(team);
 }
+
+export async function addUserToTeam(ctx) {
+    const team = await getRepository(Team).findOne(ctx.request.body.teamId);
+    team.users.push(ctx.request.body.user);
+    await getRepository(Team).save(team);
+}
+
+export async function addTaskToTeam(ctx) {
+    const team = await getRepository(Team).findOne(ctx.request.body.teamId);
+    team.users.push(ctx.request.body.task);
+    await getRepository(Team).save(team);
+}

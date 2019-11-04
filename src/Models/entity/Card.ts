@@ -15,7 +15,7 @@ export class Task {
     content: string;
 
     @ManyToMany(type => User, user => user.tasks)
-    users: User;
+    users: User[];
 
     @ManyToOne(type => Team, team => team.task)
     team: Team;
