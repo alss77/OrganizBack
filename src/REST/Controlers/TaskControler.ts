@@ -25,3 +25,8 @@ export async function addUserToTask(ctx) {
     task.users.push(ctx.request.body.user);
     await getRepository(Task).save(task);
 }
+
+export async function deleteTask(ctx) {
+    const task = await getRepository(Task).findOne(ctx.request.body.taskId);
+    await getRepository(Task).remove(task);
+}

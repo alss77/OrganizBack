@@ -1,7 +1,7 @@
 import {getRepository} from 'typeorm';
 import {Team} from '../../Models/entity/Team';
 
-export async function createTeam(ctx: any, next) {
+export async function createTeam(ctx: any) {
     ctx.body = ctx.request.body;
     // if (await getRepository(Team).findOne({
     //     where: {
