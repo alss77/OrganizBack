@@ -35,17 +35,20 @@ async function createUser(ctx: any, next) {
             email: ctx.body.email
         }
     })) {
-        next(ctx.throw(403, 'user exist'));
+        next(ctx.throw(403, 'user already exist'));
     }
     console.log(ctx.body);
     const user = new User();
     user.email = ctx.body.email;
     user.firstName = ctx.body.firstName;
     user.lastName = ctx.body.lastName;
+    user.tasks = [];
+    user.teams = [];
     if (ctx.body.password) {
         user.password = await bcrypt.hashSync(ctx.body.password, 10);
     }
 
+    ctx.body = {user: user};
     await getRepository(User).save(user);
 }
 

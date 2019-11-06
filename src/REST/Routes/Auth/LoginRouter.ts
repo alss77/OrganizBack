@@ -21,7 +21,8 @@ async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
         where: {
             email: ctx.body.email.toLowerCase()
         },
-        select: ['id', 'firstName', 'lastName', 'email', 'teams', 'tasks']
+        select: ['id', 'firstName', 'lastName', 'email'],
+        relations: ['teams']
     });
     const tokenUser = generateJWT(user);
     console.log('token dbg:', tokenUser);

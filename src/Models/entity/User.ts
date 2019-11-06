@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, ManyToMany} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany, ManyToMany, ObjectType, JoinTable } from 'typeorm';
 import {Task} from './Card';
 import { Team } from './Team';
 
@@ -21,9 +21,16 @@ export class User {
     @Column()
     password: string;
 
-    @ManyToMany(type => Task, task => task.users)
+    @ManyToMany(
+      (): ObjectType<Task> => Task,
+      task => task.users,
+      {nullable: true})
     tasks: Task[];
 
-    @ManyToMany(type => Team, team => team.users)
+    @ManyToMany(
+      (): ObjectType<Team> => Team,
+      team => team.users,
+      {nullable: true})
+      @JoinTable()
     teams: Team[];
 }
