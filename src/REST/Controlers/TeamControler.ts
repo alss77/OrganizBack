@@ -1,8 +1,8 @@
 import {getRepository} from 'typeorm';
 import {Team} from '../../Models/entity/Team';
+import { User } from '../../Models';
 
 export async function createTeam(ctx: any) {
-    ctx.body = ctx.request.body;
     // if (await getRepository(Team).findOne({
     //     where: {
     //         id: ctx.body.id
@@ -11,11 +11,12 @@ export async function createTeam(ctx: any) {
     //     next(ctx.throw(403,'ou cest chaud'));
     // }
     const team = new Team();
-    ctx.body.users.length > 1 ? ctx.body.users.forEach((el) => {
-        team.users.push(el);
-    }) : team.users.push(ctx.body.users);
-    team.task = ctx.body.task;
-    team.name = ctx.body.name;
+    ctx.users.length > 1 ? ctx.users.forEach(async (el) => {
+        const user = await getRepository(User).findOne({id: el.id});
+        team.users.push(user);
+    }) : team.users.push(await getRepository(User).findOne({id: ctx.users.id}));
+    team.task = ctx.task;
+    team.name = ctx.name;
     return getRepository(Team).save(team);
 }
 
