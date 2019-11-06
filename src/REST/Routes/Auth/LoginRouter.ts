@@ -1,6 +1,6 @@
 import * as Router from 'koa-router';
 import * as passport from 'koa-passport'
-import {json} from 'body-parser';
+// import {json} from 'body-parser';
 import {generateJWT} from '../../../Utils/generateJWT'
 import {getRepository} from 'typeorm';
 import {User} from '../../../Models';
@@ -20,13 +20,17 @@ async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
     const user = await getRepository(User).findOne({
         where: {
             email: ctx.body.email.toLowerCase()
-        }
+        },
+        select: ['id', 'firstName', 'lastName', 'email', 'teams', 'tasks']
     });
     const tokenUser = generateJWT(user);
     console.log('token dbg:', tokenUser);
     if (tokenUser) {
         ctx.status = 200;
-        ctx.body = { token: tokenUser };
+        ctx.body = {
+            token: tokenUser,
+            user: user
+        };
     } else {
         ctx.throw(403, 'Token Generation Error');
     }

@@ -5,7 +5,9 @@
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
       "@types/node": "^8.0.29",
-      "eslint": "^6.1.0",
+      "@typescript-eslint/eslint-plugin": "^2.6.1",
+      "@typescript-eslint/parser": "^2.6.1",
+      "eslint": "^6.6.0",
       "eslint-config-airbnb-base": "^14.0.0",
       "eslint-plugin-import": "^2.18.2",
       "ts-node": "3.3.0",
@@ -19,8 +21,6 @@
       "@types/helmet": "0.0.44",
       "@types/jsonwebtoken": "^8.3.4",
       "@types/koa": "^2.0.50",
-      "@typescript-eslint/eslint-plugin": "^2.6.0",
-      "@typescript-eslint/parser": "^2.6.0",
       "bcryptjs": "^2.4.3",
       "class-validator": "^0.10.1",
       "cors": "^2.8.5",
@@ -54,6 +54,7 @@
       "test": "echo \"Error: no test specified\" && exit 1",
       "start": "ts-node src/main.ts",
       "dev": "nodemon",
+      "eslint": "eslint src/**/*.ts",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
       "ts-node": "ts-node",
       "reset": "npm run typeorm -- schema:drop && npm run typeorm -- migration:run"
