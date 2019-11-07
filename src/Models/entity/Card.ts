@@ -14,10 +14,10 @@ export class Task {
     @Column()
     content: string;
 
-    @ManyToMany(type => User, user => user.tasks)
+    @ManyToMany(type => User, user => user.tasks, { cascade: true })
     users: User[];
 
-    @ManyToOne(type => Team, team => team.task)
+    @ManyToOne(type => Team, team => team.task, { cascade: true })
     team: Team;
     // @Column()
     // email: string;

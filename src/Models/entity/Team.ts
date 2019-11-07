@@ -11,9 +11,9 @@ export class Team {
     @Column()
     name: string;
 
-    @ManyToMany(type => User, user => user.tasks)
+    @ManyToMany(type => User, user => user.tasks, { cascade: true })
     users: User[];
 
-    @OneToMany(type => Task, task => task.team)
+    @OneToMany(type => Task, task => task.team, { cascade: true })
     task: Task[];
 }
