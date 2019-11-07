@@ -1,7 +1,8 @@
 import {getRepository} from 'typeorm';
 import {Task} from '../../Models/entity/Card';
+import { User } from '../../Models';
 
-export async function createTask(taskReq: Task) {
+export async function createTask(taskReq) {
     // ctx.body = ctx.request.body;
     if (await getRepository(Task).findOne({
         where: {
@@ -21,9 +22,12 @@ export async function createTask(taskReq: Task) {
 }
 
 export async function addUserToTask(ctx) {
-    const task = await getRepository(Task).findOne(ctx.request.body.taskId);
-    task.users.push(ctx.request.body.user);
-    await getRepository(Task).save(task);
+    const task = await getRepository(Task).findOne(ctx.taskId);
+    const user = await getRepository(User).findOne({id: ctx.userId});
+    if (task && user) {
+      task.users.push(ctx.user);
+      await getRepository(Task).save(task);
+    }
 }
 
 export async function deleteTask(ctx) {

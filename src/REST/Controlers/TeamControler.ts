@@ -1,6 +1,7 @@
 import {getRepository} from 'typeorm';
 import {Team} from '../../Models/entity/Team';
 import { User } from '../../Models';
+import { Task } from '../../Models/entity/Card';
 
 export async function createTeam(ctx: any) {
     // if (await getRepository(Team).findOne({
@@ -13,7 +14,9 @@ export async function createTeam(ctx: any) {
     const team = new Team();
     ctx.users.length > 1 ? ctx.users.forEach(async (el) => {
         const user = await getRepository(User).findOne({id: el.id});
-        team.users.push(user);
+        if (user) {
+            team.users.push(user);
+        }
     }) : team.users.push(await getRepository(User).findOne({id: ctx.users.id}));
     team.task = ctx.task;
     team.name = ctx.name;
@@ -21,13 +24,19 @@ export async function createTeam(ctx: any) {
 }
 
 export async function addUserToTeam(ctx) {
-    const team = await getRepository(Team).findOne(ctx.request.body.teamId);
-    team.users.push(ctx.request.body.user);
-    await getRepository(Team).save(team);
+    const team = await getRepository(Team).findOne(ctx.teamId);
+    const user = await getRepository(User).findOne({id: ctx.userId});
+    if (team && user) {
+        team.users.push(user);
+        await getRepository(Team).save(team);
+    }
 }
 
 export async function addTaskToTeam(ctx) {
-    const team = await getRepository(Team).findOne(ctx.request.body.teamId);
-    team.users.push(ctx.request.body.task);
-    await getRepository(Team).save(team);
+    const team = await getRepository(Team).findOne(ctx.teamId);
+    const task = await getRepository(Task).findOne({id: ctx.taskId});
+    if (team && task) {
+        team.task.push(task);
+        await getRepository(Team).save(team);
+    }
 }
