@@ -18,7 +18,7 @@ export async function createTeam(ctx: any) {
             team.users.push(user);
         }
     }) : team.users.push(await getRepository(User).findOne({id: ctx.users.id}));
-    team.task = ctx.task;
+    // team.task = ctx.task;
     team.name = ctx.name;
     return getRepository(Team).save(team);
 }
