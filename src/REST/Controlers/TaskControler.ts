@@ -14,7 +14,13 @@ export async function createTask(taskReq) {
 
     console.log('REQ TASK WEBSOCKET', taskReq);
     const task = new Task();
-    task.users = taskReq.users;
+    taskReq.users.length > 1 ? taskReq.users.forEach(async (el) => {
+        const user = await getRepository(User).findOne({id: el.id});
+        if (user) {
+            task.users.push(user);
+        }
+    }) : task.users = [await getRepository(User).findOne({id: taskReq.users.id}, {relations: ['teams']})];
+
     task.team = taskReq.team;
     task.cardName = taskReq.cardName;
     task.content = taskReq.content;
