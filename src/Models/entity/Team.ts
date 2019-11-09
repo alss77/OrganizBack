@@ -9,9 +9,6 @@ export class Team {
     id: number;
 
     @Column()
-    id_team: string;
-
-    @Column()
     name: string;
 
     @ManyToMany(type => User, user => user.tasks, { cascade: true })

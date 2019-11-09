@@ -1,6 +1,7 @@
 import {getRepository} from 'typeorm';
 import {Task} from '../../Models/entity/Card';
 import { User } from '../../Models';
+import { Team } from '../../Models/entity/Team';
 
 export async function createTask(taskReq) {
     // ctx.body = ctx.request.body;
@@ -21,14 +22,14 @@ export async function createTask(taskReq) {
         }
     }) : task.users = [await getRepository(User).findOne({id: taskReq.users[0].id}, {relations: ['teams']})];
 
-    task.team = taskReq.team;
+    task.team = await getRepository(Team).findOne({id: taskReq.team.id});
     task.cardName = taskReq.cardName;
     task.content = taskReq.content;
     await getRepository(Task).save(task);
 }
 
 export async function addUserToTask(ctx) {
-    const task = await getRepository(Task).findOne(ctx.taskId);
+    const task = await getRepository(Task).findOne({ id: ctx.taskId});
     const user = await getRepository(User).findOne({id: ctx.userId});
     if (task && user) {
       task.users.push(ctx.user);
@@ -37,6 +38,6 @@ export async function addUserToTask(ctx) {
 }
 
 export async function deleteTask(ctx) {
-    const task = await getRepository(Task).findOne(ctx.request.body.taskId);
+    const task = await getRepository(Task).findOne({ id: ctx.taskId });
     await getRepository(Task).remove(task);
 }

@@ -10,14 +10,19 @@ function onNewConnection(socket: Socket) {
     //     console.log('socket disconnect');
     //     socket.disconnect();
     // }
+    const query = socket.handshake.query;
+    const roomName = query.roomName;
+    if (roomName) {
+        socket.join(roomName);
+    }
 
     socket.on('createTask', async (task) => {
         const task_ = await createTask(task);
     });
     socket.on('createTeam', async (team) => {
+        socket.join(team.id);
         const team_ = await createTeam(team);
-        socket.join(team.id_team);
-        taskSocket[team_.id] = socket;
+        // taskSocket[team_.id] = socket;
     });
     socket.on('addUserToTeam', async (team) => {
         await addUserToTeam(team);
