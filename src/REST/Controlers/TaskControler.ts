@@ -38,6 +38,6 @@ export async function addUserToTask(ctx) {
 }
 
 export async function deleteTask(ctx) {
-    const task = await getRepository(Task).findOne({ id: ctx.taskId });
+    const task = await getRepository(Task).findOne({ id: ctx.id });
     await getRepository(Task).remove(task);
 }

@@ -41,3 +41,11 @@ export async function addTaskToTeam(ctx) {
         await getRepository(Team).save(team);
     }
 }
+
+export async function deleteTeam(ctx) {
+    const team = await getRepository(Team).findOne({ id: ctx.id}, {relations: ["tasks"]});
+    team.task.forEach(async (el) => {
+        await getRepository(Task).remove(await getRepository(Task).findOne({id: el.id}))
+    });
+    await getRepository(Team).remove(team);
+}
