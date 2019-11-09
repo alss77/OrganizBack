@@ -19,7 +19,7 @@ export async function createTask(taskReq) {
         if (user) {
             task.users.push(user);
         }
-    }) : task.users = [await getRepository(User).findOne({id: taskReq.users.id}, {relations: ['teams']})];
+    }) : task.users = [await getRepository(User).findOne({id: taskReq.users[0].id}, {relations: ['teams']})];
 
     task.team = taskReq.team;
     task.cardName = taskReq.cardName;

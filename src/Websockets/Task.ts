@@ -16,7 +16,7 @@ function onNewConnection(socket: Socket) {
     });
     socket.on('createTeam', async (team) => {
         const team_ = await createTeam(team);
-        socket.join(team.teamId);
+        socket.join(team.id_team);
         taskSocket[team_.id] = socket;
     });
     socket.on('addUserToTeam', async (team) => {
