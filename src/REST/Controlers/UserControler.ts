@@ -11,7 +11,8 @@ export async function getUserByEmail(ctx) {
     const user = await getRepository(User).find(
       {
           where: {email: ctx.request.query},
-          select: ['id', 'firstName', 'lastName', 'email']
+          select: ['id', 'firstName', 'lastName', 'email'],
+          relations: ['teams', 'tasks']
       });
     ctx.body = {user: user};
     ctx.status = 200;
