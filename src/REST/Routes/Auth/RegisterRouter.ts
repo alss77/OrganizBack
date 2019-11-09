@@ -24,10 +24,6 @@ export const registerRoute = Router({
     prefix: '/auth'
 });
 
-function giveTokenToUser(ctx: any): void {
-    ctx.status(200).json({ token: generateJWT(ctx.user) });
-}
-
 async function createUser(ctx: any, next) {
     ctx.body = ctx.request.body;
     if (await getRepository(User).findOne({
@@ -48,7 +44,9 @@ async function createUser(ctx: any, next) {
         user.password = await bcrypt.hashSync(ctx.body.password, 10);
     }
 
-    ctx.body = {user: user};
+    ctx.body = {
+        token: generateJWT(ctx.user),
+        user: user};
     await getRepository(User).save(user);
 }
 
