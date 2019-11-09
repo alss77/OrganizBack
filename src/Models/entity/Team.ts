@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, JoinTable } from 'typeorm';
 import {User} from './User';
 import {Task} from './Card';
 
@@ -15,5 +15,6 @@ export class Team {
     users: User[];
 
     @OneToMany(type => Task, task => task.team, { cascade: true })
+      @JoinTable()
     task: Task[];
 }
