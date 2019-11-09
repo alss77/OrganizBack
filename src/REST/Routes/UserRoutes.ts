@@ -16,5 +16,5 @@ userRoute.get('/me', verifyToken, async (ctx) => {
 });
 
 userRoute.get('/task', async (ctx) => {
-   ctx.body = await getRepository(Task).find({relations: ["users", "teams"]});
+   ctx.body = await getRepository(Task).find({relations: ["users", "team"]});
 });
