@@ -8,17 +8,17 @@ import {User} from '../../../Models';
 import {getRepository} from 'typeorm';
 import * as Router from 'koa-router';
 // import { TranslateMessage } from '../../../Utils/Translation/Sentences';
-import joi from 'joi';
-import validate from 'koa-joi-validate';
-//
-// export const registerValidator = validate({
-//     body: {
-//         email: joi.string().email().required(),
-//         firstName: joi.string().required(),
-//         lastName: joi.string().required(),
-//         password: joi.string().required()
-//     }
-// });
+import * as joi from 'joi';
+import * as validate from 'koa-joi-validate';
+
+export const registerValidator = validate({
+    body: {
+        email: joi.string().email().required(),
+        firstName: joi.string().required(),
+        lastName: joi.string().required(),
+        password: joi.string().required()
+    }
+});
 
 export const registerRoute = Router({
     prefix: '/auth'
@@ -53,7 +53,7 @@ async function createUser(ctx: any, next) {
 }
 
 registerRoute.post('/register',
-    // registerValidator,
+    registerValidator,
     createUser);
 
 

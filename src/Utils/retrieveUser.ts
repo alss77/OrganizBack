@@ -21,7 +21,8 @@ export async function retrieveUser(authorization: string): Promise<User> {
 
   return getRepository(User).findOne({
     where: { id: userID },
-    select: ['id', 'firstName', 'lastName', 'email']
+    select: ['id', 'firstName', 'lastName', 'email'],
+    relations: ['teams', 'tasks']
   });
 }
 

@@ -4,15 +4,15 @@ import * as passport from 'koa-passport'
 import {generateJWT} from '../../../Utils/generateJWT'
 import {getRepository} from 'typeorm';
 import {User} from '../../../Models';
-// import joi from 'joi';
-// import validate from 'koa-joi-validate';
-//
-// export const loginValidator = validate({
-//     body: {
-//         email: joi.string().email().required(),
-//         password: joi.string().required()
-//     }
-// });
+import * as joi from 'joi';
+import * as validate from 'koa-joi-validate';
+
+export const loginValidator = validate({
+    body: {
+        email: joi.string().email().required(),
+        password: joi.string().required()
+    }
+});
 export const loginRoute = Router({prefix: '/auth'});
 
 async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
@@ -40,7 +40,7 @@ async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
 
 loginRoute.post(
     '/local',
-    // loginValidator,
+    loginValidator,
     passport.authenticate('local'),
     giveTokenToUser
 );
