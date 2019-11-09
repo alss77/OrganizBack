@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { addUserToTask, createTask } from '../REST/Controlers/TaskControler';
 import { addTaskToTeam, addUserToTeam, createTeam } from '../REST/Controlers/TeamControler';
+import { loginValidator } from '../REST/Routes/Auth/LoginRouter';
 
 let taskSocket: { [task_id in number]: Socket } = {};
 
@@ -13,12 +14,14 @@ function onNewConnection(socket: Socket) {
 
     socket.on('joinRoom', (teamId) => {
         socket.join(teamId);
+        console.log('join room' + teamId);
     });
 
     socket.on('createTask', async (task) => {
         const task_ = await createTask(task);
     });
     socket.on('createTeam', async (team) => {
+        console.log(team);
         const team_ = await createTeam(team);
         // taskSocket[team_.id] = socket;
     });

@@ -44,9 +44,7 @@ async function createUser(ctx: any, next) {
         user.password = await bcrypt.hashSync(ctx.body.password, 10);
     }
 
-    ctx.body = {
-        token: generateJWT(ctx.user),
-        user: user};
+    ctx.body = { user: user };
     await getRepository(User).save(user);
 }
 
