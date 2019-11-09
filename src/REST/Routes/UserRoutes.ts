@@ -10,7 +10,7 @@ export const userRoute = Router({
 
 userRoute.get('/all', getAllUser);
 
-userRoute.get('/me', verifyToken, async (ctx) => {
+userRoute.get('/me', async (ctx) => {
     console.log(ctx.request);
     ctx.body = await retrieveUser(ctx.request.header['authorization']);
 });
