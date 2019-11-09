@@ -17,7 +17,7 @@ export class Task {
     @ManyToMany(type => User, user => user.tasks, { cascade: true })
     users: User[];
 
-    @ManyToOne(type => Team, team => team.task, { cascade: true })
+    @ManyToOne(type => Team, team => team.task)
     team: Team;
     // @Column()
     // email: string;
