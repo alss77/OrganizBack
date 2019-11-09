@@ -25,6 +25,7 @@ export class User {
       (): ObjectType<Task> => Task,
       task => task.users,
       {nullable: true})
+      @JoinTable()
     tasks: Task[];
 
     @ManyToMany(
