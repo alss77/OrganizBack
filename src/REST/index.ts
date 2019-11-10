@@ -8,21 +8,21 @@ export const app = new Koa();
 import * as cors from '@koa/cors';
 import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
-import * as locale from 'koa-locale';
-import * as i18n from 'koa-i18n';
+// import * as locale from 'koa-locale';
+// import * as i18n from 'koa-i18n';
 
 app.use(cors());
 app.use(bodyParser());
 
-locale(app);
-app.use(i18n(app, {
-  directory: __dirname + '/../../locales',
-  locales: ['fr', 'en'],
-  modes: ['header']
-}));
-// app.use(i18n());
+// locale(app);
+// app.use(i18n(app, {
+//   directory: __dirname + '/../../locales',
+//   locales: ['fr', 'en'],
+//   modes: ['header']
+// }));
+
 app.use(logger());
-// app.use(helmet());
+app.use(helmet());
 
 import * as session from 'koa-session';
 app.keys = ['secret'];
