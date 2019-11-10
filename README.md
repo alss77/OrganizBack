@@ -1,7 +1,6 @@
-# Awesome Project Build with TypeORM
+# OrganizBack Build with TypeORM, KOA, NodeJS & passport
 
 Steps to run this project:
 
-1. Run `npm i` command
-2. Run `docker-compose up` command
-3. Run `npm start` command
+1. Run `sudo docker-compose up --build` command
+    Run `sudo docker-compose down -v` if dbError
