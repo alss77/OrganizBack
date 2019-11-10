@@ -15,6 +15,5 @@ export class Team {
     users: User[];
 
     @OneToMany(type => Task, task => task.team, { cascade: true })
-      @JoinTable()
     task: Task[];
 }

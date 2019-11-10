@@ -13,8 +13,6 @@ export async function createTask(taskReq) {
         throw 'errrrrror';
     }
 
-    console.log('REQ TASK WEBSOCKET', taskReq);
-    console.log('uuuuseerrs:  ', await getRepository(User).findOne({id: taskReq.users[0].id}, {relations: ['teams']}))
     const task = new Task();
     taskReq.users.length > 1 ? taskReq.users.forEach(async (el) => {
         const user = await getRepository(User).findOne({id: el.id});
@@ -33,8 +31,8 @@ export async function addUserToTask(ctx) {
     const task = await getRepository(Task).findOne({ id: ctx.taskId});
     const user = await getRepository(User).findOne({id: ctx.userId});
     if (task && user) {
-      task.users.push(ctx.user);
-      await getRepository(Task).save(task);
+        task.users.push(ctx.user);
+        await getRepository(Task).save(task);
     }
 }
 

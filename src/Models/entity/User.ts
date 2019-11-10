@@ -25,13 +25,13 @@ export class User {
       (): ObjectType<Task> => Task,
       task => task.users,
       {nullable: true})
-      @JoinTable()
+    @JoinTable()
     tasks: Task[];
 
     @ManyToMany(
       (): ObjectType<Team> => Team,
       team => team.users,
       {nullable: true})
-      @JoinTable()
+    @JoinTable()
     teams: Team[];
 }

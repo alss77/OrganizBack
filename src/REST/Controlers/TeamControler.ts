@@ -12,8 +12,7 @@ export async function createTeam(ctx: any) {
     //     next(ctx.throw(403,'ou cest chaud'));
     // }
     const team = new Team();
-    console.log('users: ', ctx.users);
-    console.log('uuuusers: ', await getRepository(User).findOne({id: ctx.users[0].id}, {relations: ['teams']}))
+    console.log(ctx.users);
     ctx.users.length > 1 ? ctx.users.forEach(async (el) => {
         const user = await getRepository(User).findOne({id: el.id});
         if (user) {
@@ -26,27 +25,35 @@ export async function createTeam(ctx: any) {
 }
 
 export async function addUserToTeam(ctx) {
-    const team = await getRepository(Team).findOne(ctx.teamId);
-    const user = await getRepository(User).findOne({id: ctx.userId});
-    if (team && user) {
-        team.users.push(user);
-        await getRepository(Team).save(team);
-    }
+    console.log(ctx);
+    const team = await getRepository(Team).findOne({id: ctx.teamId});
+    const user = await getRepository(User).findOne({id: ctx.userId}, {relations: ["tasks", 'teams']});
+    console.log("user obj", user);
+    console.log("team obj", team);
+    // if (team && user) {
+    user.teams.push(team);
+    await getRepository(User).save(user);
+    // }
 }
 
 export async function addTaskToTeam(ctx) {
-    const team = await getRepository(Team).findOne(ctx.teamId);
-    const task = await getRepository(Task).findOne({id: ctx.taskId});
-    if (team && task) {
-        team.task.push(task);
-        await getRepository(Team).save(team);
+    try {
+        const team = await getRepository(Team).findOne({id: ctx.teamId});
+        const task = await getRepository(Task).findOne({id: ctx.taskId});
+        if (team && task) {
+            team.task.push(task);
+            await getRepository(Team).save(team);
+        }
+    } catch (e) {
+        console.log(e);
+        return null;
     }
 }
 
 export async function deleteTeam(ctx) {
-    const team = await getRepository(Team).findOne({ id: ctx.id}, {relations: ["tasks"]});
+    const team = await getRepository(Team).findOne({id: ctx.id}, {relations: ["task"]});
     team.task.forEach(async (el) => {
-        await getRepository(Task).remove(await getRepository(Task).findOne({id: el.id}))
+        await getRepository(Task).remove(await getRepository(Task).findOne(el.id))
     });
     await getRepository(Team).remove(team);
 }
