@@ -20,8 +20,10 @@ userRoute.get('/task', async (ctx) => {
    ctx.body = await getRepository(Task).find({relations: ["users", "team"]});
 });
 
-userRoute.get('/team', async (ctx) => {
-   const teamId = ctx.request.body.id;
+userRoute.get('/team', async (ctx: any) => {
+  console.log('CTTXX: ', ctx);
+   const teamId = ctx.request.header['authorization'];
+   console.log('teamIIIDDD: ', teamId);
    try {
        const team = await getRepository(Team).findOne(teamId, { relations: ["task"]});
        ctx.body = { team: team };

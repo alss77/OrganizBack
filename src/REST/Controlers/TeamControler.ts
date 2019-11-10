@@ -12,7 +12,8 @@ export async function createTeam(ctx: any) {
     //     next(ctx.throw(403,'ou cest chaud'));
     // }
     const team = new Team();
-    console.log(ctx.users);
+    console.log('users: ', ctx.users);
+    console.log('uuuusers: ', await getRepository(User).findOne({id: ctx.users[0].id}, {relations: ['teams']}))
     ctx.users.length > 1 ? ctx.users.forEach(async (el) => {
         const user = await getRepository(User).findOne({id: el.id});
         if (user) {
