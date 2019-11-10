@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinTable, ObjectType } from 'typeorm';
 import {User} from './User';
 import {Team} from './Team';
 
@@ -14,14 +14,10 @@ export class Task {
     @Column()
     content: string;
 
-    @ManyToMany(type => User, user => user.tasks, { cascade: true })
+    @ManyToMany((): ObjectType<User> => User, user => user.tasks, { cascade: true })
     users: User[];
 
-    @ManyToOne(type => Team, team => team.task)
+    @ManyToOne((): ObjectType<Team> => Team, team => team.task)
     team: Team;
-    // @Column()
-    // email: string;
-    //
-    // @Column()
-    // password: string;
+
 }

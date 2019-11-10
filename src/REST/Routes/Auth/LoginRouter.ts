@@ -1,6 +1,5 @@
 import * as Router from 'koa-router';
 import * as passport from 'koa-passport'
-// import {json} from 'body-parser';
 import {generateJWT} from '../../../Utils/generateJWT'
 import {getRepository} from 'typeorm';
 import {User} from '../../../Models';
@@ -33,6 +32,8 @@ async function giveTokenToUser(ctx: any, next: () => Promise<any>) {
             user: user
         };
     } else {
+        ctx.status = 403;
+        ctx.body = 'Token Error';
         ctx.throw(403, 'Token Generation Error');
     }
     return next();

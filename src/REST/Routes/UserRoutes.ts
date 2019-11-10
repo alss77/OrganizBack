@@ -1,6 +1,6 @@
 import * as Router from 'koa-router';
-import { getAllUser, getUserByEmail } from '../Controlers/UserControler';
-import { retrieveUser, verifyToken } from '../../Utils/retrieveUser';
+import { getAllUser } from '../Controlers/UserControler';
+import { retrieveUser } from '../../Utils/retrieveUser';
 import { getRepository } from 'typeorm';
 import { Task } from '../../Models/entity/Card';
 import { Team } from '../../Models/entity/Team';
@@ -21,9 +21,7 @@ userRoute.get('/task', async (ctx) => {
 });
 
 userRoute.get('/team', async (ctx: any) => {
-  console.log('CTTXX: ', ctx);
    const teamId = ctx.request.header['authorization'];
-   console.log('teamIIIDDD: ', teamId);
    try {
        const team = await getRepository(Team).findOne(teamId, { relations: ["task"]});
        ctx.body = { team: team };

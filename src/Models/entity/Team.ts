@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, JoinTable, ObjectType } from 'typeorm';
 import {User} from './User';
 import {Task} from './Card';
 
@@ -11,9 +11,9 @@ export class Team {
     @Column()
     name: string;
 
-    @ManyToMany(type => User, user => user.tasks, { cascade: true })
+    @ManyToMany((): ObjectType<User> => User, user => user.tasks, { cascade: true })
     users: User[];
 
-    @OneToMany(type => Task, task => task.team, { cascade: true })
+    @OneToMany((): ObjectType<Task> => Task, task => task.team, { cascade: true })
     task: Task[];
 }

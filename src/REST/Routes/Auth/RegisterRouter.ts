@@ -1,13 +1,8 @@
-import { Request, Response } from 'koa';
-// import * as AsyncHandler from 'koa-async-handler';
 import * as bcrypt from 'bcryptjs'
 // import { FacebookRegister, GoogleRegister } from '../../../Utils/PassportStrategies';
-// import { ApiExceptionTranslate } from '../../../utils/ApiExceptions/ApiExceptionTranslate';
-import { generateJWT } from '../../../Utils/generateJWT';
 import {User} from '../../../Models';
 import {getRepository} from 'typeorm';
 import * as Router from 'koa-router';
-// import { TranslateMessage } from '../../../Utils/Translation/Sentences';
 import * as joi from 'joi';
 import * as validate from 'koa-joi-validate';
 

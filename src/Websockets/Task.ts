@@ -1,16 +1,9 @@
 import { Server, Socket } from 'socket.io';
 import { addUserToTask, createTask, deleteTask } from '../REST/Controlers/TaskControler';
 import { addTaskToTeam, addUserToTeam, createTeam, deleteTeam } from '../REST/Controlers/TeamControler';
-import { loginValidator } from '../REST/Routes/Auth/LoginRouter';
-
-let taskSocket: { [task_id in number]: Socket } = {};
 
 function onNewConnection(socket: Socket) {
     console.log('new Connection');
-    // if (socket.request.userId == null) {
-    //     console.log('socket disconnect');
-    //     socket.disconnect();
-    // }
 
     socket.on('joinRoom', (teamId) => {
         socket.join(teamId);
@@ -18,12 +11,12 @@ function onNewConnection(socket: Socket) {
     });
 
     socket.on('createTask', async (task) => {
-        const task_ = await createTask(task);
+        await createTask(task);
+        // socket.in(task.team.id).emit('task', task_);
     });
     socket.on('createTeam', async (team) => {
         console.log(team);
-        const team_ = await createTeam(team);
-        // taskSocket[team_.id] = socket;
+        await createTeam(team);
     });
     socket.on('addUserToTeam', async (team) => {
         await addUserToTeam(team);
