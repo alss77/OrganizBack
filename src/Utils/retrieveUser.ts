@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 import { User } from '../Models';
 import { JWT_key } from './generateJWT';
 import { env } from '../../environnement/local';
+import { log } from 'util';
 
 export async function retrieveUser(authorization: string): Promise<User> {
   let token = authorization;
@@ -12,18 +13,21 @@ export async function retrieveUser(authorization: string): Promise<User> {
   }
   token = token.slice(7);
   let userID;
+  console.log('userId empty');
   try {
     userID = (jwt.verify(token, JWT_key) as any).data;
+    console.log('userId', userID);
   } catch (e) {
     console.log('Error Verify');
     return null;
   }
-
-  return getRepository(User).findOne({
+  const user = getRepository(User).findOne({
     where: { id: userID },
     select: ['id', 'firstName', 'lastName', 'email'],
     relations: ['teams', 'tasks']
   });
+  console.log('USSSSSSSSSSER', user);
+  return user;
 }
 
 export function verifyToken(ctx, next) {
