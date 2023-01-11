@@ -22,7 +22,7 @@
       "@types/jsonwebtoken": "^8.3.4",
       "@types/koa": "^2.0.50",
       "bcryptjs": "^2.4.3",
-      "class-validator": "^0.10.1",
+      "class-validator": "^0.14.0",
       "cors": "^2.8.5",
       "eslint-config-prettier": "^6.5.0",
       "eslint-plugin-prettier": "^3.1.1",
